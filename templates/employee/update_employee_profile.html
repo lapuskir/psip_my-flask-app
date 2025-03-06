@@ -1,0 +1,39 @@
+{% extends '/main/base.html' %}
+
+{% block title %} Редактирование учетной записи сотрудника {{ employee.id }} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Редактирование информации о сотруднике {{ employee.name }}</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="form-control d-flex flex-column gap-3">
+        {{ form.hidden_tag() }}
+
+        <!-- Отображаем текущий аватар -->
+        <div class="mb-3">
+            <img src="{{ url_for('static', filename='upload/' + employee.avatar) }}" alt="Аватар сотрудника" class="user-avatar" width="150">
+        </div>
+
+        <!-- Поля формы для обновления данных сотрудника -->
+        <div class="mb-3">
+            {{ form.name(class="form-control", placeholder="Имя", value=employee.name) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.login(class="form-control", placeholder="Логин", value=employee.login) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.position(class="form-control", placeholder="Должность", value=employee.position) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.avatar(class="form-control") }} <!-- Поле для загрузки нового аватара -->
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">Обновить информацию</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Создание отгрузки{% endblock %}
+
+{% block content %}
+<form id="shippingForm" method="post" class="form-control d-flex flex-column gap-3">
+    <input id="shipping_name" name="shipping_name" type="text" placeholder="Перевозчик" class="form-control" required>
+
+    <!-- Поле выбора водителя -->
+    <select id="driver" name="driver" class="form-control" required>
+        <option value="">Выберите водителя</option>
+        {% for driver in drivers %}
+            <option value="{{ driver.id }}">{{ driver.name }}</option>
+        {% endfor %}
+    </select>
+
+    <input id="vehicle" name="vehicle" type="text" placeholder="Транспортное средство" class="form-control" required>
+    <input id="starting_point" name="starting_point" type="text" placeholder="Точка отправления" class="form-control" required>
+    <input id="destination_point" name="destination_point" type="text" placeholder="Точка назначения" class="form-control" required>
+    <input type="hidden" name="author_shipping_name" value="{{ current_user.id }}">
+    <input value="Создать отгрузку" type="submit" class="btn btn-success">
+</form>
+
+<div id="error-message" style="color: red; display: none;">
+    Пожалуйста, заполните все поля формы.
+</div>
+{% endblock %}

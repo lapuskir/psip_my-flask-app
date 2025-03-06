@@ -1,0 +1,87 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Сайдбар */
+#sidebar {
+    height: 100vh;
+    background-color: #343a40;
+    color: white;
+    padding-top: 20px;
+}
+
+#sidebar .nav-link {
+    color: #adb5bd;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+#sidebar .nav-link.active,
+#sidebar .nav-link:hover {
+    background-color: #495057;
+    color: white;
+    border-radius: 5px;
+}
+
+#sidebar .nav {
+    padding-left: 10px;
+}
+
+#sidebar .nav-item {
+    margin-bottom: 5px;
+}
+
+/* Контент */
+main {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Кнопки */
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Таблица */
+.table {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    text-align: center;}
+
+
+.centered {
+    display: flex;
+    justify-content: center;  /* Центрирование по горизонтали */
+    align-items: center;  /* Центрирование по вертикали */
+
+}
+
+
+.table_class {
+    col-md:10;
+    col-lg:12;
+    px-md:5;
+}
+
+.user-avatar {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+

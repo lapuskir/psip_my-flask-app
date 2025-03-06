@@ -1,0 +1,16 @@
+{% extends '/main/base.html' %}
+
+{% block title %} Редактирование отгрузки id{{ shipping.id}} {% endblock %}
+{% block content %}
+<form method="post" class="form-control d-flex flex-column gap-3">
+    <input value="{{ shipping.shipping_name}}" name="shipping_name" type="text" placeholder="Перевозчик" class="form-control">
+    <input value="{{ shipping.driver}}" name="driver" type="text" placeholder="Водитель" class="form-control">
+    <input value="{{ shipping.vehicle}}" name="vehicle" type="text" placeholder="Транспортное средство" class="form-control">
+    <input value="{{ shipping.starting_point}}" name="starting_point" type="text" placeholder="Точка отправления" class="form-control">
+    <input value="{{ shipping.destination_point}}" name="destination_point" type="text" placeholder="Точка назначения" class="form-control">
+
+    <input value="Обновить отгрузку" type="submit" class="btn btn-success">
+</form>
+{% endblock %}
+
+

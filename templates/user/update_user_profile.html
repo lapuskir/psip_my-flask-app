@@ -1,0 +1,18 @@
+{% extends '/main/base.html' %}
+
+{% block title %} Редактирование учетной записи id{{ user.id}} {% endblock %}
+{% block content %}
+
+<form method="post" enctype="multipart/form-data" class="form-control d-flex flex-column gap-3">
+    {{ form.hidden_tag() }}
+
+    <img src="{{ url_for('static', filename='upload/' + user.avatar) }}" alt="Аватар пользователя" class="user-avatar" width="150">
+
+    {{ form.name(class="form-control", placeholder="Имя") }}
+    {{ form.login(class="form-control", placeholder="Логин") }}
+    {{ form.avatar(class="form-control") }}  <!-- Поле для загрузки аватара -->
+    {{ form.submit(class="btn btn-success") }}
+</form>
+
+{% endblock %}
+

@@ -1,0 +1,49 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Регистрация сотрудника{% endblock %}
+
+{% block content %}
+    <form method="POST" enctype="multipart/form-data" class="form-control d-flex flex-column gap-2" id="shippingForm">
+        {{ form.csrf_token() }}
+
+        <!-- Поле для ФИО -->
+        {{ form.name(class="form-control", placeholder="ФИО") }}
+        {% if form.name.errors %}
+            <div class="invalid-feedback" style="display: block;">
+                {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Поле для Логина -->
+        {{ form.login(class="form-control", placeholder="Логин", id="login") }}
+
+        <!-- Сообщение об ошибке, если логин уже существует -->
+        <div id="login-error-message" style="color: red; display: none;">
+            Логин уже существует. Пожалуйста, выберите другой.
+        </div>
+
+        {% if form.login.errors %}
+            <div class="invalid-feedback" style="display: block;">
+                {% for error in form.login.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Выпадающий список для позиции -->
+        {{ form.position(class="form-select") }}
+
+        <!-- Поля для пароля и подтверждения пароля -->
+        {{ form.password(class="form-control", placeholder="Пароль") }}
+        {{ form.confirm_password(class="form-control", placeholder="Подтвердите пароль") }}
+
+        <!-- Поле для аватара -->
+        {{ form.avatar(class="form-control") }}
+
+        <!-- Кнопка отправки формы -->
+        {{ form.submit(class="btn btn-success") }}
+    </form>
+
+{% endblock %}

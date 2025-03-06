@@ -1,0 +1,68 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <main class="table_class">
+
+        <!-- Панель поиска -->
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <div class="btn-toolbar mb-2 mb-md-0 gap-2 d-flex">
+                <!-- Кнопка для создания учетной записи -->
+                <div class="btn-group me-2">
+                    <a href="{{ url_for('employee.register_employee') }}" class="btn btn-secondary">Создать учетную запись сотруднику</a>
+                </div>
+
+                <!-- Форма поиска -->
+                <div class="btn-group me-2">
+                    <form method="GET" action="{{ url_for('employee.all_employee') }}" class="d-flex gap-2">
+                        <input type="text" name="search_query" class="form-control" placeholder="Поиск..." value="{{ request.args.get('search_query', '') }}">
+                        <button type="submit" class="btn btn-primary">Поиск</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <h2>Учетные записи сотрудников</h2>
+        <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Фото</th>
+                        <th scope="col">Должность</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Логин</th>
+                        <th scope="col">Дата найма</th>
+                        <th scope="col">Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emp in employees %}
+                        <tr scope="row">
+                            <td>{{ emp.id }}</td>
+                            <td>
+                                <img src="{{ url_for('static', filename='upload/' + emp.avatar) }}" alt="Фото" width="50" height="50">
+                            </td>
+                            <td>{{ emp.position }}</td>
+                            <td>{{ emp.name }}</td>
+                            <td>{{ emp.login }}</td>
+                            <td>{{ emp.date_hired }}</td>
+                            <td>
+                                <!-- Кнопки для редактирования и удаления -->
+                                <a href="{{ url_for('employee.update_employee_profile', id=emp.id) }}" class="btn btn-sm btn-secondary">
+                                    <span class="fa fa-edit"></span> Редактировать
+                                </a>
+                                <form method="POST" action="{{ url_for('employee.delete_employee', id=emp.id) }}" onsubmit="return confirm('Вы уверены, что хотите удалить этого сотрудника?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <span class="fa fa-trash"></span> Удалить
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+{% endblock %}

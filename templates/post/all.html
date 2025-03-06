@@ -1,0 +1,114 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+   <main class="table_class">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="btn-toolbar mb-2 mb-md-0 gap-2 d-flex">
+
+            <div class="btn-group me-2">
+               <a href="{{ url_for('shipping.export_excel') }}" class="btn btn-success">Скачать Excel</a>
+                <a href="{{ url_for('shipping.create') }}" class="btn btn-secondary">Создать отгрузку</a>
+            </div>
+
+            <div>
+               <form method="GET" action="{{ url_for('shipping.search') }}" class="d-flex gap-2">
+                   <input type="text" id="searchInput" name="search_query" class="form-control" placeholder="Поиск..." value="{{ request.args.get('search_query', '') }}">
+                   <select name="filter_type" class="form-control">
+                       <option value="">Фильтр по...</option>
+                       <option value="shipping_name">Перевозчик</option>
+                       <option value="driver">Водитель</option>
+                       <option value="vehicle">Транспортное средство</option>
+                       <option value="starting_point">Точка отправления</option>
+                       <option value="destination_point">Точка назначения</option>
+                   </select>
+                   <button type="submit" class="btn btn-primary">Применить фильтр</button>
+               </form>
+            </div>
+
+            <form method="GET" action="{{ url_for('shipping.filter') }}" class="d-flex gap-2">
+                <select name="filter_type" class="form-control">
+                    <option value="latest">Последние отгрузки</option>
+                    <option value="oldest">Старые отгрузки</option>
+                    <option value="this_week">Отгрузки за неделю</option>
+                    <option value="by_driver">По водителю</option>
+                    <option value="by_shipping_name">По перевозчику</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Применить фильтр</button>
+            </form>
+        </div>
+    </div>
+
+    <h2>Отгрузки</h2>
+    <div class="table-responsive small">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">Перевозчик</th>
+                    <th scope="col">Водитель</th>
+                    <th scope="col">Точка отправления</th>
+                    <th scope="col">Точка назначения</th>
+                    <th scope="col">Транспортное средство</th>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Старший отгрузки</th>
+                    <th scope="col">Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for shipping in shippings %}
+                <tr scope="row">
+                    <td>{{ shipping.id }}</td>
+                    <td>{{ shipping.shipping_name }}</td>
+                    <td>{{ shipping.driver.name }}</td>
+                    <td>{{ shipping.starting_point }}</td>
+                    <td>{{ shipping.destination_point }}</td>
+                    <td>{{ shipping.vehicle }}</td>
+                    <td>{{ shipping.date.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td>id{{ shipping.author_shipping_name }}</td>
+                    <td>
+                        <a href="{{ url_for('shipping.update', id=shipping.id) }}" class="btn btn-sm btn-secondary edit-btn">
+                            <span class="fa fa-edit"></span>
+                        </a>
+                        <a href="{{ url_for('shipping.delete', id=shipping.id) }}" class="btn btn-sm btn-danger delete-btn">
+                            <span class="fa fa-trash"></span>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Событие 1: Сохранение последнего поиска в LocalStorage
+        const searchInput = document.getElementById("searchInput");
+        searchInput.value = localStorage.getItem("searchQuery") || "";
+        searchInput.addEventListener("input", function () {
+            localStorage.setItem("searchQuery", searchInput.value);
+        });
+
+        // Событие 2: Уведомление при удалении
+        document.querySelectorAll(".delete-btn").forEach(button => {
+            button.addEventListener("click", function (event) {
+                if (!confirm("Вы уверены, что хотите удалить эту отгрузку?")) {
+                    event.preventDefault();
+                }
+            });
+        });
+
+        // Событие 3: Установка куки при редактировании
+        document.querySelectorAll(".edit-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                document.cookie = "lastEditedId=" + this.closest("tr").children[0].innerText + "; path=/";
+            });
+        });
+    });
+</script>
+
+{% endblock %}

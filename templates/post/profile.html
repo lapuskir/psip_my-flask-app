@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block title %}  {% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column ms-5">
+<h1>Профиль</h1>
+{% if user.avatar %}
+        <img src="{{ url_for('static', filename='upload/' + user.avatar) }}" alt="Фото" width="150" height="150">
+{% else %}
+    <p>Аватар не загружен</p>
+{% endif %}
+    <br>
+<p><strong>Имя:</strong> {{ user.name }}</p>
+<p><strong>Логин:</strong> {{ user.login }}</p>
+<br>
+<form action="{{ url_for('user.logout') }}" method="POST">
+
+    <a href="/user/logout" class="btn btn-dark rounded-pill px-3" type="button"> Выход </a>
+</form>
+</div>
+{% endblock %}
